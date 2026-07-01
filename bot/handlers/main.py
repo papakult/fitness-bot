@@ -93,7 +93,24 @@ async def cb_service_detail(call: CallbackQuery):
 
 @router.callback_query(F.data.startswith("buy:"))
 async def cb_buy_service(call: CallbackQuery):
-    await call.message.answer("💳 Для оплаты напишите тренеру:", reply_markup=contact_kb(TRAINER_USERNAME))
+    await call.message.answer(
+        "💳 <b>Оплата в USDT (TRC-20)</b>
+
+"
+        "Отправь нужную сумму на адрес:
+
+"
+        "<code>TES8Z2VYduByHczLBj87vTqJDECGbFdEyH</code>
+
+"
+        "Сеть: Tron (TRC-20)
+"
+        "⚠️ Отправляй только USDT в сети TRC-20
+
+"
+        "После оплаты напиши тренеру для подтверждения:",
+        reply_markup=contact_kb(TRAINER_USERNAME)
+    )
 
 @router.callback_query(F.data == "section:gallery")
 async def cb_section_gallery(call: CallbackQuery):

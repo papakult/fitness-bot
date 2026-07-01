@@ -11,13 +11,14 @@ router = Router()
 logger = logging.getLogger(__name__)
 TRAINER_USERNAME = "Papa_Kult"
 WELCOME_PHOTO = "AgACAgIAAxkBAAMHakVxscTYsjrnVGqjQkZI95rCE-cAAgoZaxtmVTBKPYdOqk_QJtcBAAMCAAN4AAM8BA"
+USDT_ADDRESS = "TES8Z2VYduByHczLBj87vTqJDECGbFdEyH"
 
 SERVICE_DESCRIPTIONS = {
-    "consultation": "🗣 <b>Консультация</b>\n\nПерсональная онлайн-консультация.\n\n⏱ Длительность: 60 минут\n\nСтоимость: <b>${price} USDT</b>",
-    "program": "📋 <b>Программа тренировок</b>\n\nИндивидуальная программа под твои цели.\n\n✅ Программа на 8-12 недель\n\nСтоимость: <b>${price} USDT</b>",
-    "diet": "🥗 <b>Составление диеты</b>\n\nПерсональный план питания.\n\n✅ Расчёт КБЖУ\n✅ Меню на неделю\n\nСтоимость: <b>${price} USDT</b>",
-    "analyses": "🧪 <b>Разбор анализов</b>\n\nДетальный анализ результатов крови.\n\n✅ Интерпретация показателей\n\nСтоимость: <b>${price} USDT</b>",
-    "steroids": "💊 <b>Курс стероидов</b>\n\nИндивидуально подобранный курс.\n\n✅ Подбор препаратов\n✅ ПКТ включена\n\n⚠️ Только для совершеннолетних\n\nСтоимость: <b>${price} USDT</b>",
+    "consultation": "Консультация\n\nПерсональная онлайн-консультация.\n\nДлительность: 60 минут\n\nСтоимость: ${price} USDT",
+    "program": "Программа тренировок\n\nИндивидуальная программа под твои цели.\n\nПрограмма на 8-12 недель\n\nСтоимость: ${price} USDT",
+    "diet": "Составление диеты\n\nПерсональный план питания.\n\nРасчёт КБЖУ, меню на неделю\n\nСтоимость: ${price} USDT",
+    "analyses": "Разбор анализов\n\nДетальный анализ результатов крови.\n\nСтоимость: ${price} USDT",
+    "steroids": "Курс стероидов\n\nИндивидуально подобранный курс.\n\nПодбор препаратов, ПКТ включена\n\nТолько для совершеннолетних\n\nСтоимость: ${price} USDT",
 }
 
 DEFAULTS = {"consultation": 25, "program": 50, "diet": 25, "analyses": 50, "steroids": 25}
@@ -30,7 +31,7 @@ async def cmd_start(message: Message):
             username=message.from_user.username or "",
             first_name=message.from_user.first_name or "Пользователь",
         )
-    text = f"👋 Привет, <b>{message.from_user.first_name}</b>!\n\nВыбери раздел:"
+    text = "Привет, " + message.from_user.first_name + "!\n\nВыбери раздел:"
     await message.answer_photo(photo=WELCOME_PHOTO, caption=text, reply_markup=main_menu_kb())
 
 @router.callback_query(F.data.startswith("back:"))
@@ -43,7 +44,7 @@ async def cb_back(call: CallbackQuery):
         await show_exercises(call)
     elif target == "services":
         await call.message.delete()
-        await call.message.answer("💰 <b>Платные услуги</b>\n\nВыбери услугу:", reply_markup=services_kb())
+        await call.message.answer("Платные услуги\n\nВыбери услугу:", reply_markup=services_kb())
 
 @router.callback_query(F.data == "section:exercises")
 async def cb_section_exercises(call: CallbackQuery):
@@ -54,9 +55,9 @@ async def show_exercises(call: CallbackQuery):
         exercises = await ExerciseRepo(session).get_all()
     await call.message.delete()
     if not exercises:
-        await call.message.answer("🏋️ <b>Упражнения</b>\n\nПока упражнений нет!", reply_markup=main_menu_kb())
+        await call.message.answer("Упражнения\n\nПока упражнений нет!", reply_markup=main_menu_kb())
         return
-    await call.message.answer("🏋️ <b>Упражнения</b>\n\nВыбери упражнение:", reply_markup=exercises_kb(exercises))
+    await call.message.answer("Упражнения\n\nВыбери упражнение:", reply_markup=exercises_kb(exercises))
 
 @router.callback_query(F.data.startswith("exercise:"))
 async def cb_exercise_detail(call: CallbackQuery):
@@ -66,9 +67,9 @@ async def cb_exercise_detail(call: CallbackQuery):
     if not ex:
         await call.answer("Упражнение не найдено", show_alert=True)
         return
-    caption = f"🏋️ <b>{ex.name}</b>"
+    caption = ex.name
     if ex.description:
-        caption += f"\n\n{ex.description}"
+        caption += "\n\n" + ex.description
     await call.message.delete()
     if ex.video_file_id:
         await call.message.answer_video(video=ex.video_file_id, caption=caption, reply_markup=exercise_detail_kb(exercise_id))
@@ -78,14 +79,14 @@ async def cb_exercise_detail(call: CallbackQuery):
 @router.callback_query(F.data == "section:services")
 async def cb_section_services(call: CallbackQuery):
     await call.message.delete()
-    await call.message.answer("💰 <b>Платные услуги</b>\n\nВыбери услугу:", reply_markup=services_kb())
+    await call.message.answer("Платные услуги\n\nВыбери услугу:", reply_markup=services_kb())
 
 @router.callback_query(F.data.startswith("service:"))
 async def cb_service_detail(call: CallbackQuery):
     service_key = call.data.split(":")[1]
     async with AsyncSessionLocal() as session:
         svc = await ServiceRepo(session).get_by_key(service_key)
-    template = SERVICE_DESCRIPTIONS.get(service_key, "ℹ️ Описание услуги")
+    template = SERVICE_DESCRIPTIONS.get(service_key, "Описание услуги")
     price = svc.price_usd if svc else DEFAULTS.get(service_key, "?")
     text = template.replace("${price}", str(price))
     await call.message.delete()
@@ -93,24 +94,8 @@ async def cb_service_detail(call: CallbackQuery):
 
 @router.callback_query(F.data.startswith("buy:"))
 async def cb_buy_service(call: CallbackQuery):
-    await call.message.answer(
-        "💳 <b>Оплата в USDT (TRC-20)</b>
-
-"
-        "Отправь нужную сумму на адрес:
-
-"
-        "<code>TES8Z2VYduByHczLBj87vTqJDECGbFdEyH</code>
-
-"
-        "Сеть: Tron (TRC-20)
-"
-        "⚠️ Отправляй только USDT в сети TRC-20
-
-"
-        "После оплаты напиши тренеру для подтверждения:",
-        reply_markup=contact_kb(TRAINER_USERNAME)
-    )
+    text = "Оплата в USDT TRC-20\n\nОтправь нужную сумму на адрес:\n\n" + USDT_ADDRESS + "\n\nСеть: Tron TRC-20\nОтправляй только USDT в сети TRC-20\n\nПосле оплаты напиши тренеру для подтверждения:"
+    await call.message.answer(text, reply_markup=contact_kb(TRAINER_USERNAME))
 
 @router.callback_query(F.data == "section:gallery")
 async def cb_section_gallery(call: CallbackQuery):
@@ -118,14 +103,14 @@ async def cb_section_gallery(call: CallbackQuery):
         photos = await GalleryRepo(session).get_all()
     await call.message.delete()
     if not photos:
-        await call.message.answer("📸 <b>Фотогалерея</b>\n\nФото скоро появятся!", reply_markup=gallery_kb())
+        await call.message.answer("Фотогалерея\n\nФото скоро появятся!", reply_markup=gallery_kb())
         return
     chunk = photos[:10]
-    media_group = [InputMediaPhoto(media=p.file_id, caption=p.caption or ("📸 Галерея" if i == 0 else None)) for i, p in enumerate(chunk)]
+    media_group = [InputMediaPhoto(media=p.file_id, caption=p.caption or ("Галерея" if i == 0 else None)) for i, p in enumerate(chunk)]
     await call.message.answer_media_group(media=media_group)
-    await call.message.answer("📸 <b>Фотогалерея</b>", reply_markup=gallery_kb())
+    await call.message.answer("Фотогалерея", reply_markup=gallery_kb())
 
 @router.callback_query(F.data == "section:contact")
 async def cb_section_contact(call: CallbackQuery):
     await call.message.delete()
-    await call.message.answer("✉️ <b>Написать тренеру</b>\n\nНажми кнопку ниже:", reply_markup=contact_kb(TRAINER_USERNAME))
+    await call.message.answer("Написать тренеру\n\nНажми кнопку ниже:", reply_markup=contact_kb(TRAINER_USERNAME))

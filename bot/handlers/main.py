@@ -21,7 +21,18 @@ SERVICE_DESCRIPTIONS = {
     "steroids": "Курс стероидов\n\nИндивидуально подобранный курс.\n\nПодбор препаратов, ПКТ включена\n\nТолько для совершеннолетних\n\nСтоимость: ${price} USDT",
 }
 
-DEFAULTS = {"consultation": 125, "program": 150, "diet": 125, "analyses": 150, "steroids": 125}
+SERVICE_DESCRIPTIONS["online"] = "Онлайн-ведение (месяц)
+
+Каждый день на связи:
+
+Разбор тренировок
+Контроль питания
+Корректировка программы
+Поддержка и мотивация
+
+Стоимость: 250 USDT"
+
+DEFAULTS = {"consultation": 125, "program": 150, "diet": 125, "analyses": 150, "steroids": 125, "online": 250}
 
 @router.message(CommandStart())
 async def cmd_start(message: Message):

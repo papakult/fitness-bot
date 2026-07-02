@@ -158,3 +158,10 @@ async def get_photo_id(message: Message):
         return
     file_id = message.photo[-1].file_id
     await message.answer(f"file_id фото:\n<code>{file_id}</code>")
+
+@router.message(F.video)
+async def get_video_id(message: Message):
+    if not is_admin(message.from_user.id):
+        return
+    file_id = message.video.file_id
+    await message.answer(f"file_id видео:\n<code>{file_id}</code>")

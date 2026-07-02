@@ -188,11 +188,12 @@ const tg = window.Telegram.WebApp;
 tg.ready();
 tg.expand();
 function showTab(name) {
-document.querySelectorAll('.tab').forEach((t,i) => {
-t.classList.toggle('active', ['services','trainer','gallery','pay'][i] === name);
-});
-document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-document.getElementById('page-' + name).classList.add('active');
+var tabs = document.querySelectorAll('.tab');
+var names = ['services','trainer','gallery','pay'];
+for(var i=0;i<tabs.length;i++){tabs[i].className='tab'+(names[i]===name?' active':'');}
+var pages = document.querySelectorAll('.page');
+for(var j=0;j<pages.length;j++){pages[j].style.display='none';}
+document.getElementById('page-'+name).style.display='block';
 }
 function selectService(name, price) {
 tg.showPopup({

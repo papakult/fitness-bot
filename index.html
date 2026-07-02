@@ -7,210 +7,112 @@
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-body{background:#0a0a0a;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;}
-.hero{position:relative;height:260px;overflow:hidden;}
+body{background:#0a0a0a;color:#fff;font-family:sans-serif;}
+.hero{position:relative;height:200px;overflow:hidden;}
 .hero img{width:100%;height:100%;object-fit:cover;opacity:0.5;}
-.hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.3) 0%,rgba(0,0,0,0.8) 100%);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:24px;}
-.logo{font-size:38px;font-weight:900;letter-spacing:4px;background:linear-gradient(135deg,#ff6600,#ffaa00);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.subtitle{font-size:11px;color:#aaa;letter-spacing:2px;text-transform:uppercase;margin-top:6px;text-align:center;line-height:1.6;}
-.tabs{display:flex;background:#111;border-bottom:1px solid #222;position:sticky;top:0;z-index:10;}
-.tab{flex:1;padding:14px 4px;text-align:center;font-size:11px;color:#555;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;font-weight:700;letter-spacing:1px;text-transform:uppercase;}
+.hero-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:20px;background:linear-gradient(transparent,#000);}
+.logo{font-size:32px;font-weight:900;color:#ff6600;}
+.subtitle{font-size:11px;color:#aaa;margin-top:4px;}
+.tabs{display:flex;background:#111;border-bottom:1px solid #333;}
+.tab{flex:1;padding:12px 4px;text-align:center;font-size:11px;color:#555;cursor:pointer;border-bottom:3px solid transparent;font-weight:700;}
 .tab.active{color:#ff6600;border-bottom-color:#ff6600;}
-.page{display:none;padding:20px 16px;visibility:hidden;height:0;overflow:hidden;}
-.page.active{display:block;visibility:visible;height:auto;overflow:visible;}
-.section-title{font-size:11px;color:#ff6600;letter-spacing:3px;text-transform:uppercase;margin-bottom:16px;font-weight:700;}
-.service-card{background:linear-gradient(135deg,#1a1a1a,#111);border:1px solid #222;border-radius:16px;padding:20px;margin-bottom:12px;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;}
-.service-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(180deg,#ff6600,#ffaa00);}
-.service-card:active{transform:scale(0.98);}
-.service-icon{font-size:28px;margin-bottom:8px;}
-.service-name{font-size:16px;font-weight:700;margin-bottom:4px;}
-.service-desc{font-size:13px;color:#888;line-height:1.4;margin-bottom:12px;}
-.service-price{font-size:20px;font-weight:900;color:#ff6600;}
-.service-price span{font-size:13px;color:#666;font-weight:400;}
-.gallery-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.gallery-img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px;}
-.trainer-img{width:100%;height:350px;object-fit:contain;background:#111;border-radius:14px;margin-bottom:16px;}
-.trainer-name{font-size:22px;font-weight:900;background:linear-gradient(135deg,#ff6600,#ffaa00);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.trainer-bio{font-size:14px;color:#aaa;line-height:1.7;margin-top:8px;}
-.achievement{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:14px 16px;margin-top:10px;display:flex;align-items:flex-start;gap:12px;}
-.achievement-icon{font-size:22px;flex-shrink:0;margin-top:2px;}
-.achievement-title{font-size:13px;font-weight:700;color:#ff6600;margin-bottom:3px;}
-.achievement-text{font-size:13px;color:#ccc;line-height:1.5;}
-.stat-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:16px;}
-.stat{background:#1a1a1a;border-radius:12px;padding:12px 8px;text-align:center;border:1px solid #222;}
-.stat-num{font-size:18px;font-weight:900;color:#ff6600;}
-.stat-label{font-size:10px;color:#666;margin-top:4px;line-height:1.3;}
-.contact-btn{display:block;width:100%;padding:16px;background:linear-gradient(135deg,#ff6600,#ffaa00);border:none;border-radius:14px;color:#000;font-size:16px;font-weight:800;cursor:pointer;margin-top:16px;}
-.usdt-box{background:#1a1a1a;border:1px solid #333;border-radius:16px;padding:20px;margin-top:16px;}
-.usdt-title{font-size:14px;color:#ff6600;font-weight:700;margin-bottom:8px;}
-.usdt-addr{font-size:11px;color:#888;word-break:break-all;line-height:1.6;font-family:monospace;}
-.copy-btn{display:block;width:100%;padding:12px;background:#222;border:1px solid #333;border-radius:10px;color:#ff6600;font-size:13px;font-weight:700;cursor:pointer;margin-top:10px;}
+.page{padding:16px;display:none;}
+.page.active{display:block;}
+.card{background:#1a1a1a;border-radius:12px;padding:16px;margin-bottom:10px;border-left:4px solid #ff6600;}
+.card h3{font-size:15px;margin-bottom:4px;}
+.card p{font-size:12px;color:#888;margin-bottom:8px;}
+.price{font-size:18px;font-weight:900;color:#ff6600;}
+.btn{display:block;width:100%;padding:14px;background:#ff6600;border:none;border-radius:10px;color:#000;font-size:15px;font-weight:800;cursor:pointer;margin-top:12px;}
+.ach{background:#1a1a1a;border-radius:10px;padding:12px;margin-bottom:8px;}
+.ach h4{color:#ff6600;font-size:12px;margin-bottom:4px;}
+.ach p{font-size:12px;color:#ccc;}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.grid img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;}
+.addr{background:#1a1a1a;border-radius:10px;padding:16px;margin-top:12px;}
+.addr h4{color:#ff6600;margin-bottom:8px;}
+.addr p{font-size:11px;color:#888;word-break:break-all;font-family:monospace;}
 </style>
 </head>
 <body>
 <div class="hero">
-<img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80" alt="gym">
+<img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80">
 <div class="hero-overlay">
 <div class="logo">PAPA_KULT</div>
-<div class="subtitle">Андрей Шелест<br>Чемпион Мира • Медицинское образование</div>
+<div class="subtitle">Андрей Шелест • Чемпион Мира</div>
 </div>
 </div>
 <div class="tabs">
-<div class="tab active" onclick="showTab('services')">Услуги</div>
-<div class="tab" onclick="showTab('trainer')">Тренер</div>
-<div class="tab" onclick="showTab('gallery')">Фото</div>
-<div class="tab" onclick="showTab('pay')">Оплата</div>
+<div class="tab active" onclick="show('s')">Услуги</div>
+<div class="tab" onclick="show('t')">Тренер</div>
+<div class="tab" onclick="show('g')">Фото</div>
+<div class="tab" onclick="show('p')">Оплата</div>
 </div>
-<div class="page active" id="page-services">
-<div class="section-title">Выбери услугу</div>
-<div class="service-card" onclick="selectService('Консультация','80')">
-<div class="service-icon">🗣</div>
-<div class="service-name">Консультация</div>
-<div class="service-desc">Персональная онлайн-консультация 60 минут. Научный и тренерский подход</div>
-<div class="service-price">80 <span>USDT</span></div>
+
+<div id="s" class="page active">
+<div class="card"><h3>🗣 Консультация</h3><p>Онлайн 60 минут. Научный подход</p><div class="price">80 USDT</div></div>
+<div class="card"><h3>📋 Программа тренировок</h3><p>Индивидуальная на 8-12 недель</p><div class="price">150 USDT</div></div>
+<div class="card"><h3>🥗 Составление диеты</h3><p>КБЖУ, меню, добавки</p><div class="price">100 USDT</div></div>
+<div class="card"><h3>🧪 Разбор анализов</h3><p>Кровь и гормоны. Медобразование</p><div class="price">120 USDT</div></div>
+<div class="card"><h3>💊 Курс стероидов</h3><p>Научный подбор. ПКТ. 18+</p><div class="price">120 USDT</div></div>
+<div class="card"><h3>🎯 Онлайн-ведение</h3><p>Месяц на связи каждый день</p><div class="price">250 USDT</div></div>
+<div class="card" onclick="openTg()"><h3>🏟 Персональная тренировка</h3><p>В фитнес-центре</p><div class="price" style="font-size:14px;">Написать тренеру →</div></div>
 </div>
-<div class="service-card" onclick="selectService('Программа тренировок','150')">
-<div class="service-icon">📋</div>
-<div class="service-name">Программа тренировок</div>
-<div class="service-desc">Индивидуальная программа на 8-12 недель. Методика чемпиона мира</div>
-<div class="service-price">150 <span>USDT</span></div>
+
+<div id="t" class="page">
+<img src="https://images.unsplash.com/photo-1567013127542-490d757e51fc?w=800&q=80" style="width:100%;height:280px;object-fit:contain;background:#111;border-radius:12px;margin-bottom:12px;">
+<div class="ach"><h4>🏆 Чемпион Мира и Рекордсмен Мира</h4><p>Пауэрлифтинг НАП. МСМК в 2 дисциплинах (2010-2023)</p></div>
+<div class="ach"><h4>🥇 Бодибилдинг</h4><p>Абсолютный чемпион Сибири. Топ-3 Чемпионат России. Arnold Classic Испания</p></div>
+<div class="ach"><h4>🎓 Медицинское образование</h4><p>Новосибирский Государственный Медицинский Университет</p></div>
+<div class="ach"><h4>🏅 Спортивное образование</h4><p>Национальный Университет Фитнеса</p></div>
+<div class="ach"><h4>💪 Тренер</h4><p>Подготовил 100+ спортсменов на чемпионатах по бодибилдингу</p></div>
+<div class="ach"><h4>🎤 Организатор и эксперт</h4><p>Провёл 70+ семинаров. Разработчик методик питания</p></div>
+<button class="btn" onclick="openTg()">✉️ Написать тренеру</button>
 </div>
-<div class="service-card" onclick="selectService('Составление диеты','100')">
-<div class="service-icon">🥗</div>
-<div class="service-name">Составление диеты</div>
-<div class="service-desc">Научный подход к питанию. Расчёт КБЖУ, меню, спортивные добавки</div>
-<div class="service-price">100 <span>USDT</span></div>
-</div>
-<div class="service-card" onclick="selectService('Разбор анализов','120')">
-<div class="service-icon">🧪</div>
-<div class="service-name">Разбор анализов</div>
-<div class="service-desc">Интерпретация крови и гормонов. Специалист с высшим медицинским образованием</div>
-<div class="service-price">120 <span>USDT</span></div>
-</div>
-<div class="service-card" onclick="selectService('Курс стероидов','120')">
-<div class="service-icon">💊</div>
-<div class="service-name">Курс стероидов</div>
-<div class="service-desc">Научный подбор препаратов, дозировки, ПКТ. Безопасно. 18+</div>
-<div class="service-price">120 <span>USDT</span></div>
-</div>
-<div class="service-card" onclick="selectService('Онлайн-ведение','250')">
-<div class="service-icon">🎯</div>
-<div class="service-name">Онлайн-ведение</div>
-<div class="service-desc">Месяц каждый день на связи. Тренировки, питание, контроль, мотивация</div>
-<div class="service-price">250 <span>USDT</span></div>
-</div>
-<div class="service-card" onclick="openTelegram()">
-<div class="service-icon">🏟</div>
-<div class="service-name">Персональная тренировка</div>
-<div class="service-desc">Персональная тренировка в фитнес-центре. Индивидуальный подход, контроль техники</div>
-<div class="service-price" style="font-size:15px;">Написать тренеру →</div>
+
+<div id="g" class="page">
+<div class="grid">
+<img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=400&q=80">
+<img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=400&q=80">
+<img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=400&q=80">
+<img src="https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=400&q=80">
+<img src="https://images.unsplash.com/photo-1534367507873-d2d7e24c797f?w=400&q=80">
+<img src="https://images.unsplash.com/photo-1549060279-7e168fcee0c2?w=400&q=80">
 </div>
 </div>
-<div class="page" id="page-trainer">
-<img class="trainer-img" src="https://images.unsplash.com/photo-1567013127542-490d757e51fc?w=800&q=80" alt="trainer">
-<div class="trainer-name">Андрей Шелест</div>
-<div class="trainer-bio">Чемпион мира и специалист с высшим медицинским образованием. Более 20 лет в спорте. Уникальное сочетание науки и спортивных достижений высшего уровня.</div>
-<div class="achievement">
-<div class="achievement-icon">🏆</div>
-<div>
-<div class="achievement-title">Чемпион Мира и Рекордсмен Мира</div>
-<div class="achievement-text">Пауэрлифтинг НАП. Мастер спорта международного класса в 2 дисциплинах (2010-2023)</div>
+
+<div id="p" class="page">
+<div class="addr">
+<h4>💳 USDT TRC-20</h4>
+<p id="addr">TES8Z2VYduByHczLBj87vTqJDECGbFdEyH</p>
+<button class="btn" onclick="copyAddr()" style="margin-top:10px;background:#333;color:#ff6600;">📋 Скопировать адрес</button>
 </div>
+<p style="margin-top:12px;font-size:12px;color:#666;">Отправляй только USDT в сети TRC-20. После оплаты напиши тренеру.</p>
+<button class="btn" onclick="openTg()">✉️ Написать после оплаты</button>
 </div>
-<div class="achievement">
-<div class="achievement-icon">🥇</div>
-<div>
-<div class="achievement-title">Бодибилдинг — топ результаты</div>
-<div class="achievement-text">Абсолютный чемпион Сибири. Топ-3 Чемпионат России. Участник Arnold Classic Испания. Чемпион Siberian Power Show</div>
-</div>
-</div>
-<div class="achievement">
-<div class="achievement-icon">🎓</div>
-<div>
-<div class="achievement-title">Медицинское образование</div>
-<div class="achievement-text">Новосибирский Государственный Медицинский Университет</div>
-</div>
-</div>
-<div class="achievement">
-<div class="achievement-icon">🏅</div>
-<div>
-<div class="achievement-title">Спортивное образование</div>
-<div class="achievement-text">Национальный Университет Фитнеса</div>
-</div>
-</div>
-<div class="achievement">
-<div class="achievement-icon">💪</div>
-<div>
-<div class="achievement-title">Тренер — достижения</div>
-<div class="achievement-text">Подготовил 100+ спортсменов, участвовавших на различных чемпионатах по бодибилдингу</div>
-</div>
-</div>
-<div class="achievement">
-<div class="achievement-icon">🎤</div>
-<div>
-<div class="achievement-title">Организатор и эксперт</div>
-<div class="achievement-text">Провёл 70+ семинаров. Разработчик методик питания</div>
-</div>
-</div>
-<div class="stat-row">
-<div class="stat"><div class="stat-num">🌍</div><div class="stat-label">Чемпион мира</div></div>
-<div class="stat"><div class="stat-num">100+</div><div class="stat-label">чемпионов</div></div>
-<div class="stat"><div class="stat-num">20+</div><div class="stat-label">лет опыта</div></div>
-</div>
-<button class="contact-btn" onclick="openTelegram()">✉️ Написать тренеру</button>
-</div>
-<div class="page" id="page-gallery">
-<div class="section-title">Зал и тренировки</div>
-<div class="gallery-grid">
-<img class="gallery-img" src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=400&q=80" alt="gym">
-<img class="gallery-img" src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=400&q=80" alt="workout">
-<img class="gallery-img" src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=400&q=80" alt="fitness">
-<img class="gallery-img" src="https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=400&q=80" alt="training">
-<img class="gallery-img" src="https://images.unsplash.com/photo-1534367507873-d2d7e24c797f?w=400&q=80" alt="weights">
-<img class="gallery-img" src="https://images.unsplash.com/photo-1549060279-7e168fcee0c2?w=400&q=80" alt="body">
-</div>
-</div>
-<div class="page" id="page-pay">
-<div class="section-title">Оплата</div>
-<div class="usdt-box">
-<div class="usdt-title">💳 USDT TRC-20</div>
-<div class="usdt-addr" id="addr">TES8Z2VYduByHczLBj87vTqJDECGbFdEyH</div>
-<button class="copy-btn" onclick="copyAddr()">📋 Скопировать адрес</button>
-</div>
-<div style="margin-top:16px;font-size:13px;color:#666;line-height:1.6;">
-⚠️ Отправляй только USDT в сети TRC-20<br>
-После оплаты напиши тренеру для подтверждения
-</div>
-<button class="contact-btn" onclick="openTelegram()">✉️ Написать после оплаты</button>
-</div>
+
 <script>
-const tg = window.Telegram.WebApp;
-tg.ready();
-tg.expand();
-function showTab(name) {
-var tabs = document.querySelectorAll('.tab');
-var names = ['services','trainer','gallery','pay'];
-for(var i=0;i<tabs.length;i++){tabs[i].className='tab'+(names[i]===name?' active':'');}
-var pages = document.querySelectorAll('.page');
-for(var j=0;j<pages.length;j++){pages[j].style.display='none';}
-document.getElementById('page-'+name).style.display='block';
+var tg = window.Telegram && window.Telegram.WebApp;
+if(tg){tg.ready();tg.expand();}
+function show(id){
+var ids=['s','t','g','p'];
+for(var i=0;i<ids.length;i++){
+document.getElementById(ids[i]).style.display='none';
+document.getElementById(ids[i]).className='page';
 }
-function selectService(name, price) {
-tg.showPopup({
-title: name,
-message: 'Стоимость: ' + price + ' USDT\n\nПерейти к оплате?',
-buttons: [{id:'pay', type:'default', text:'Оплатить'},{id:'cancel', type:'cancel'}]
-}, (btn) => { if (btn === 'pay') showTab('pay'); });
+document.getElementById(id).style.display='block';
+document.getElementById(id).className='page active';
+var tabs=document.querySelectorAll('.tab');
+var map={s:0,t:1,g:2,p:3};
+for(var j=0;j<tabs.length;j++){tabs[j].className='tab';}
+tabs[map[id]].className='tab active';
 }
-function copyAddr() {
-navigator.clipboard.writeText(document.getElementById('addr').textContent).then(() => {
-tg.showAlert('Адрес скопирован!');
-});
+function copyAddr(){
+navigator.clipboard.writeText(document.getElementById('addr').textContent);
+if(tg){tg.showAlert('Адрес скопирован!');}else{alert('Скопировано!');}
 }
-function openTelegram() {
-tg.sendData(JSON.stringify({action: 'contact'}));
+function openTg(){
+if(tg){tg.sendData(JSON.stringify({action:'contact'}));}
 }
 </script>
 </body>
 </html>
-пятница,  3 июля 2026 г. 02:22:00 (MSK)

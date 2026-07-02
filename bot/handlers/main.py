@@ -21,7 +21,7 @@ SERVICE_DESCRIPTIONS = {
     "steroids": "Курс стероидов\n\nИндивидуально подобранный курс.\n\nПодбор препаратов, ПКТ включена\n\nТолько для совершеннолетних\n\nСтоимость: ${price} USDT",
 }
 
-DEFAULTS = {"consultation": 25, "program": 50, "diet": 25, "analyses": 50, "steroids": 25}
+DEFAULTS = {"consultation": 125, "program": 150, "diet": 125, "analyses": 150, "steroids": 125}
 
 @router.message(CommandStart())
 async def cmd_start(message: Message):

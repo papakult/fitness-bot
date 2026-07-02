@@ -41,6 +41,8 @@ body{background:#0a0a0a;color:#fff;font-family:-apple-system,BlinkMacSystemFont,
 .stat-num{font-size:18px;font-weight:900;color:#ff6600;}
 .stat-label{font-size:10px;color:#666;margin-top:4px;line-height:1.3;}
 .contact-btn{display:block;width:100%;padding:16px;background:linear-gradient(135deg,#ff6600,#ffaa00);border:none;border-radius:14px;color:#000;font-size:16px;font-weight:800;cursor:pointer;margin-top:16px;}
+.video-box{width:100%;border-radius:14px;margin-bottom:16px;background:#1a1a1a;overflow:hidden;}
+.video-box video{width:100%;display:block;}
 .usdt-box{background:#1a1a1a;border:1px solid #333;border-radius:16px;padding:20px;margin-top:16px;}
 .usdt-title{font-size:14px;color:#ff6600;font-weight:700;margin-bottom:8px;}
 .usdt-addr{font-size:11px;color:#888;word-break:break-all;line-height:1.6;font-family:monospace;}
@@ -101,7 +103,7 @@ body{background:#0a0a0a;color:#fff;font-family:-apple-system,BlinkMacSystemFont,
 </div>
 </div>
 <div class="page" id="page-trainer">
-<img class="trainer-img" src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&q=80" alt="trainer">
+<div id="trainer-photo" style="width:100%;height:220px;background:#1a1a1a;border-radius:14px;margin-bottom:16px;display:flex;align-items:center;justify-content:center;font-size:64px;">💪</div>
 <div class="trainer-name">Андрей Шелест</div>
 <div class="trainer-bio">Чемпион мира и специалист с высшим медицинским образованием. Более 20 лет в спорте. Уникальное сочетание науки и спортивных достижений высшего уровня.</div>
 <div class="achievement">
@@ -121,23 +123,34 @@ body{background:#0a0a0a;color:#fff;font-family:-apple-system,BlinkMacSystemFont,
 <div class="achievement">
 <div class="achievement-icon">🎓</div>
 <div>
-<div class="achievement-title">Высшее медицинское образование</div>
-<div class="achievement-text">НГМУ — Новосибирский Государственный Медицинский Университет. Биоэкология человека. Национальный Университет Фитнеса — диплом с отличием</div>
+<div class="achievement-title">Медицинское образование</div>
+<div class="achievement-text">НГМУ — Новосибирский Государственный Медицинский Университет. Биоэкология человека</div>
 </div>
 </div>
 <div class="achievement">
-<div class="achievement-icon">🏗</div>
+<div class="achievement-icon">🏅</div>
 <div>
-<div class="achievement-title">Основатель КультЛаб</div>
-<div class="achievement-text">Сеть 30 магазинов спортпита. Соучредитель Федерации бодибилдинга НСО. Подготовил 100+ чемпионов России, Восточной Европы, Сибири</div>
+<div class="achievement-title">Спортивное образование</div>
+<div class="achievement-text">Национальный Университет Фитнеса — Про карта, диплом с отличием</div>
+</div>
+</div>
+<div class="achievement">
+<div class="achievement-icon">💪</div>
+<div>
+<div class="achievement-title">Тренер — достижения</div>
+<div class="achievement-text">Подготовил 100+ спортсменов, участвовавших на различных чемпионатах по бодибилдингу</div>
 </div>
 </div>
 <div class="achievement">
 <div class="achievement-icon">🎤</div>
 <div>
 <div class="achievement-title">Организатор и эксперт</div>
-<div class="achievement-text">Провёл 70+ семинаров. Соорганизатор Кубка КультЛаб с Михаилом Кокляевым. Разработчик методик питания</div>
+<div class="achievement-text">Провёл 70+ семинаров. Разработчик методик питания</div>
 </div>
+</div>
+<div class="section-title" style="margin-top:20px;">Произвольная программа</div>
+<div class="video-box" id="video-box">
+<div style="padding:40px;text-align:center;color:#555;">Загрузка видео...</div>
 </div>
 <div class="stat-row">
 <div class="stat"><div class="stat-num">🌍</div><div class="stat-label">Чемпион мира</div></div>
@@ -174,6 +187,34 @@ body{background:#0a0a0a;color:#fff;font-family:-apple-system,BlinkMacSystemFont,
 const tg = window.Telegram.WebApp;
 tg.ready();
 tg.expand();
+const BOT_TOKEN = "8693381673:AAHFts1JFTPzv76oSPa9VgjwzKYxRf5yjqk";
+const PHOTO_ID = "AgACAgIAAxkBAAICZGpG0z4rzjd5DaP2r12FpOneTFCJAAINFGsbVgs5SkNsauhDmCYvAQADAgADeQADPAQ";
+const VIDEO_ID = "BAACAgIAAxkBAAICZmpG02JEuJU5UDFXqGW1Ra6BPJAUAALrlgACVgs5She3467ebX5ZPAQ";
+async function getTgFileUrl(fileId) {
+const resp = await fetch("https://api.telegram.org/bot" + BOT_TOKEN + "/getFile?file_id=" + fileId);
+const data = await resp.json();
+if (data.ok) return "https://api.telegram.org/file/bot" + BOT_TOKEN + "/" + data.result.file_path;
+return null;
+}
+async function loadMedia() {
+try {
+const photoUrl = await getTgFileUrl(PHOTO_ID);
+if (photoUrl) {
+const img = document.createElement('img');
+img.src = photoUrl;
+img.className = 'trainer-img';
+img.alt = 'trainer';
+document.getElementById('trainer-photo').replaceWith(img);
+}
+} catch(e) { console.log('photo error', e); }
+try {
+const videoUrl = await getTgFileUrl(VIDEO_ID);
+if (videoUrl) {
+document.getElementById('video-box').innerHTML = '<video controls playsinline style="width:100%;border-radius:14px;" src="' + videoUrl + '"></video>';
+}
+} catch(e) { console.log('video error', e); }
+}
+loadMedia();
 function showTab(name) {
 document.querySelectorAll('.tab').forEach((t,i) => {
 t.classList.toggle('active', ['services','trainer','gallery','pay'][i] === name);
@@ -199,4 +240,3 @@ tg.sendData(JSON.stringify({action: 'contact'}));
 </script>
 </body>
 </html>
- 

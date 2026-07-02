@@ -162,12 +162,12 @@ body{background:#0a0a0a;color:#fff;font-family:-apple-system,BlinkMacSystemFont,
 <div class="page" id="page-gallery">
 <div class="section-title">Зал и тренировки</div>
 <div class="gallery-grid">
-<img class="gallery-img" src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=400&q=80" alt="gym">
-<img class="gallery-img" src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=400&q=80" alt="workout">
-<img class="gallery-img" src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=400&q=80" alt="fitness">
-<img class="gallery-img" src="https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=400&q=80" alt="training">
-<img class="gallery-img" src="https://images.unsplash.com/photo-1534367507873-d2d7e24c797f?w=400&q=80" alt="weights">
-<img class="gallery-img" src="https://images.unsplash.com/photo-1549060279-7e168fcee0c2?w=400&q=80" alt="body">
+<div class="gallery-img" id="g1" style="background:#1a1a1a;display:flex;align-items:center;justify-content:center;">⏳</div>
+<div class="gallery-img" id="g2" style="background:#1a1a1a;display:flex;align-items:center;justify-content:center;">⏳</div>
+<div class="gallery-img" id="g3" style="background:#1a1a1a;display:flex;align-items:center;justify-content:center;">⏳</div>
+<div class="gallery-img" id="g4" style="background:#1a1a1a;display:flex;align-items:center;justify-content:center;">⏳</div>
+<div class="gallery-img" id="g5" style="background:#1a1a1a;display:flex;align-items:center;justify-content:center;">⏳</div>
+<div class="gallery-img" id="g6" style="background:#1a1a1a;display:flex;align-items:center;justify-content:center;">⏳</div>
 </div>
 </div>
 <div class="page" id="page-pay">
@@ -215,6 +215,29 @@ document.getElementById('video-box').innerHTML = '<video controls playsinline st
 } catch(e) { console.log('video error', e); }
 }
 loadMedia();
+const GALLERY_IDS = [
+  "AgACAgIAAxkBAAICeGpG2BwcSF2A0OpQ65NmSD21HmVhAAIcFGsbVgs5SnzBvOz1Jm6GAQADAgADdwADPAQ",
+  "AgACAgIAAxkBAAICdmpG2BJHBq0CRN5swIxIUuThjrS7AAIbFGsbVgs5SsE682BNbzonAQADAgADdwADPAQ",
+  "AgACAgIAAxkBAAICdGpG2A_0s85XO2wvRzzabJ30m8XGAAIaFGsbVgs5SsNwiJ1sBNu3AQADAgADdwADPAQ",
+  "AgACAgIAAxkBAAICcmpG2As4c-wyCuYsLg_QPE_f_zjVAAIZFGsbVgs5Sopc2dW63MqwAQADAgADeQADPAQ",
+  "AgACAgIAAxkBAAICcGpG2AdiPA8OBwIAAZlNNFXuuhChdQACGBRrG1YLOUqVBs7A2XmbNAEAAwIAA3kAAzwE",
+  "AgACAgIAAxkBAAICbmpG2AL_ZBQEU2iIFlyeXkZmdrk5AAIXFGsbVgs5Sg3RretEro67AQADAgADdwADPAQ"
+];
+async function loadGallery() {
+  for (let i = 0; i < GALLERY_IDS.length; i++) {
+    try {
+      const url = await getTgFileUrl(GALLERY_IDS[i]);
+      if (url) {
+        const el = document.getElementById("g" + (i+1));
+        el.style.backgroundImage = "url(" + url + ")";
+        el.style.backgroundSize = "cover";
+        el.style.backgroundPosition = "center";
+        el.innerHTML = "";
+      }
+    } catch(e) {}
+  }
+}
+loadGallery();
 function showTab(name) {
 document.querySelectorAll('.tab').forEach((t,i) => {
 t.classList.toggle('active', ['services','trainer','gallery','pay'][i] === name);

@@ -24,6 +24,7 @@ def services_kb() -> InlineKeyboardMarkup:
         [InlineKeyboardButton(text="🥗 Составление диеты", callback_data="service:diet")],
         [InlineKeyboardButton(text="🧪 Разбор анализов", callback_data="service:analyses")],
         [InlineKeyboardButton(text="💊 Курс стероидов", callback_data="service:steroids")],
+        [InlineKeyboardButton(text="🎯 Онлайн-ведение", callback_data="service:online")],
         [back_btn("main")],
     ])
 

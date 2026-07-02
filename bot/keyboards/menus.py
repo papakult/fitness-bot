@@ -3,7 +3,7 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 def main_menu_kb() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="🏋️ Упражнения", callback_data="section:exercises")],
+        [InlineKeyboardButton(text="💡 Полезное", callback_data="section:exercises")],
         [InlineKeyboardButton(text="💰 Платные услуги", callback_data="section:services")],
         [InlineKeyboardButton(text="📸 Фотогалерея", callback_data="section:gallery")],
         [InlineKeyboardButton(text="✉️ Написать в личку", callback_data="section:contact")],

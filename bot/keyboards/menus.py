@@ -1,11 +1,9 @@
 import os
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
 
 def main_menu_kb() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="💡 Полезное", callback_data="section:exercises")],
-        [InlineKeyboardButton(text="💰 Платные услуги", callback_data="section:services")],
-        [InlineKeyboardButton(text="📸 Фотогалерея", callback_data="section:gallery")],
+        [InlineKeyboardButton(text="🏋️ Открыть Papa_Kult", web_app=WebAppInfo(url="https://fitness-bot-2dqc.vercel.app"))],
         [InlineKeyboardButton(text="✉️ Написать в личку", callback_data="section:contact")],
     ])
 

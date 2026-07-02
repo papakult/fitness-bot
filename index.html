@@ -16,8 +16,8 @@ body{background:#0a0a0a;color:#fff;font-family:-apple-system,BlinkMacSystemFont,
 .tabs{display:flex;background:#111;border-bottom:1px solid #222;position:sticky;top:0;z-index:10;}
 .tab{flex:1;padding:14px 4px;text-align:center;font-size:11px;color:#555;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;font-weight:700;letter-spacing:1px;text-transform:uppercase;}
 .tab.active{color:#ff6600;border-bottom-color:#ff6600;}
-.page{display:none;padding:20px 16px;}
-.page.active{display:block;}
+.page{display:none;padding:20px 16px;visibility:hidden;height:0;overflow:hidden;}
+.page.active{display:block;visibility:visible;height:auto;overflow:visible;}
 .section-title{font-size:11px;color:#ff6600;letter-spacing:3px;text-transform:uppercase;margin-bottom:16px;font-weight:700;}
 .service-card{background:linear-gradient(135deg,#1a1a1a,#111);border:1px solid #222;border-radius:16px;padding:20px;margin-bottom:12px;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;}
 .service-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(180deg,#ff6600,#ffaa00);}

@@ -4,7 +4,6 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
 def main_menu_kb() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text="🏋️ Открыть Papa_Kult", web_app=WebAppInfo(url="https://papakult-app.vercel.app"))],
-        [InlineKeyboardButton(text="✉️ Написать в личку", callback_data="section:contact")],
     ])
 
 def exercises_kb(exercises: list) -> InlineKeyboardMarkup:

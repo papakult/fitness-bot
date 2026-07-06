@@ -32,7 +32,7 @@ async def cmd_start(message: Message):
             username=message.from_user.username or "",
             first_name=message.from_user.first_name or "Пользователь",
         )
-    text = "Привет, " + message.from_user.first_name + "!\n\nВыбери раздел:"
+    text = "Привет, " + message.from_user.first_name + "! 👋\n\nЖми на кнопку ниже 👇"
     await message.answer_photo(photo=WELCOME_PHOTO, caption=text, reply_markup=main_menu_kb())
 
 @router.callback_query(F.data.startswith("back:"))

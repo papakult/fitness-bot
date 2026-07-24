@@ -192,57 +192,46 @@ body{background:#0a0a0a;color:#fff;font-family:-apple-system,BlinkMacSystemFont,
 const tg = window.Telegram.WebApp;
 tg.ready();
 tg.expand();
-const BOT_TOKEN = "8693381673:AAHFts1JFTPzv76oSPa9VgjwzKYxRf5yjqk";
-const PHOTO_ID = "AgACAgIAAxkBAAICZGpG0z4rzjd5DaP2r12FpOneTFCJAAINFGsbVgs5SkNsauhDmCYvAQADAgADeQADPAQ";
-const VIDEO_ID = "BAACAgIAAxkBAAICZmpG02JEuJU5UDFXqGW1Ra6BPJAUAALrlgACVgs5She3467ebX5ZPAQ";
-async function getTgFileUrl(fileId) {
-const resp = await fetch("https://api.telegram.org/bot" + BOT_TOKEN + "/getFile?file_id=" + fileId);
-const data = await resp.json();
-if (data.ok) return "https://api.telegram.org/file/bot" + BOT_TOKEN + "/" + data.result.file_path;
-return null;
-}
-async function loadMedia() {
-try {
-const photoUrl = await getTgFileUrl(PHOTO_ID);
-if (photoUrl) {
-const img = document.createElement('img');
-img.src = photoUrl;
-img.className = 'trainer-img';
-img.alt = 'trainer';
-document.getElementById('trainer-photo').replaceWith(img);
-}
-} catch(e) { console.log('photo error', e); }
-try {
-const videoUrl = await getTgFileUrl(VIDEO_ID);
-if (videoUrl) {
-document.getElementById('video-box').innerHTML = '<video controls playsinline style="width:100%;border-radius:14px;" src="' + videoUrl + '"></video>';
-}
-} catch(e) { console.log('video error', e); }
+
+// Media (trainer photo/video, gallery) is now proxied through our own
+// backend on Render, which holds the bot token server-side. The mini-app
+// no longer knows the bot token or the raw Telegram file_ids.
+const MEDIA_BASE = "https://fitness-bot-vyf2.onrender.com/media/";
+
+function loadMedia() {
+  const img = new Image();
+  img.onload = function () {
+    img.className = 'trainer-img';
+    img.alt = 'trainer';
+    document.getElementById('trainer-photo').replaceWith(img);
+  };
+  img.onerror = function () { console.log('photo error'); };
+  img.src = MEDIA_BASE + "trainer-photo";
+
+  document.getElementById('video-box').innerHTML =
+    '<video controls playsinline style="width:100%;border-radius:14px;" src="' + MEDIA_BASE + 'trainer-video"></video>';
 }
 loadMedia();
-const GALLERY_IDS = [
-  "AgACAgIAAxkBAAICeGpG2BwcSF2A0OpQ65NmSD21HmVhAAIcFGsbVgs5SnzBvOz1Jm6GAQADAgADdwADPAQ",
-  "AgACAgIAAxkBAAICdmpG2BJHBq0CRN5swIxIUuThjrS7AAIbFGsbVgs5SsE682BNbzonAQADAgADdwADPAQ",
-  "AgACAgIAAxkBAAICdGpG2A_0s85XO2wvRzzabJ30m8XGAAIaFGsbVgs5SsNwiJ1sBNu3AQADAgADdwADPAQ",
-  "AgACAgIAAxkBAAICcmpG2As4c-wyCuYsLg_QPE_f_zjVAAIZFGsbVgs5Sopc2dW63MqwAQADAgADeQADPAQ",
-  "AgACAgIAAxkBAAICcGpG2AdiPA8OBwIAAZlNNFXuuhChdQACGBRrG1YLOUqVBs7A2XmbNAEAAwIAA3kAAzwE",
-  "AgACAgIAAxkBAAICbmpG2AL_ZBQEU2iIFlyeXkZmdrk5AAIXFGsbVgs5Sg3RretEro67AQADAgADdwADPAQ"
-];
-async function loadGallery() {
-  for (let i = 0; i < GALLERY_IDS.length; i++) {
-    try {
-      const url = await getTgFileUrl(GALLERY_IDS[i]);
-      if (url) {
-        const el = document.getElementById("g" + (i+1));
+
+function loadGallery() {
+  for (let i = 1; i <= 6; i++) {
+    (function (i) {
+      const el = document.getElementById("g" + i);
+      const url = MEDIA_BASE + "gallery-" + i;
+      const img = new Image();
+      img.onload = function () {
         el.style.backgroundImage = "url(" + url + ")";
         el.style.backgroundSize = "cover";
         el.style.backgroundPosition = "center";
         el.innerHTML = "";
-      }
-    } catch(e) {}
+      };
+      img.onerror = function () { console.log('gallery error', i); };
+      img.src = url;
+    })(i);
   }
 }
 loadGallery();
+
 function showTab(name) {
 document.querySelectorAll('.tab').forEach((t,i) => {
 t.classList.toggle('active', ['services','trainer','gallery','pay'][i] === name);
